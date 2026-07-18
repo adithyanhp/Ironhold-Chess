@@ -138,7 +138,7 @@ The board automatically adapts to the available screen width.
 
 Open the live demo:
 
-**https://adithyanhp.github.io/Ironhold-Chess/**
+https://adithyanhp.github.io/Ironhold-Chess/
 
 ### Run Locally
 
@@ -256,7 +256,7 @@ The goal is to create a chess experience where every move feels meaningful and e
 
 ## 📄 License
 
-This project is licensed under the **MIT License**.
+This project is licensed under the **GNU General Public License v2.0**.
 
 See the [`LICENSE`](LICENSE) file for details.
 
