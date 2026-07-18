@@ -124,11 +124,11 @@ The board automatically adapts to the available screen width.
 
 ### Gameplay
 
-![Ironhold Chess Gameplay](https://raw.githubusercontent.com/adithyanhp/Ironhold-Chess/main/assets/screenshots/gameplay.png)
+<img src="https://raw.githubusercontent.com/adithyanhp/Ironhold-Chess/main/assets/screenshots/gameplay.png" alt="Ironhold Chess Gameplay" width="800">
 
 ### Battle Animation
 
-![Battle Animation](https://raw.githubusercontent.com/adithyanhp/Ironhold-Chess/main/assets/screenshots/battle.png)
+<img src="https://raw.githubusercontent.com/adithyanhp/Ironhold-Chess/main/assets/screenshots/battle.png" alt="Ironhold Chess Battle Animation" width="800">
 
 ---
 
@@ -219,7 +219,7 @@ Ironhold Chess is actively evolving.
 Planned features include:
 
 * [ ] Custom arenas
-* [ ] Piece-specific battle animations
+* [ ] More advanced piece-specific battle animations
 * [ ] Achievements system
 * [ ] Chess puzzles
 * [ ] Campaign mode
