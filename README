@@ -6,7 +6,7 @@
 
 Instead of static chess pieces, every piece is represented as a unique warrior silhouette with custom SVG artwork, animated combat sequences, sound effects, visual themes, and an AI opponent.
 
-🌐 **Live Demo:** `https://adithyanhp.github.io/Ironhold-Chess/`
+🌐 **Live Demo:** https://adithyanhp.github.io/Ironhold-Chess/
 
 ---
 
@@ -129,6 +129,7 @@ The board automatically adapts to the available screen width.
 ### Battle Animation
 
 ![Battle Animation](assets/screenshots/battle.png)
+
 ---
 
 ## 🕹️ How to Play
@@ -137,9 +138,7 @@ The board automatically adapts to the available screen width.
 
 Open the live demo:
 
-```text
-https://adithyanhp.github.io/Ironhold-Chess/
-```
+**https://adithyanhp.github.io/Ironhold-Chess/**
 
 ### Run Locally
 
@@ -152,7 +151,7 @@ git clone https://github.com/adithyanhp/Ironhold-Chess.git
 Open the project directory:
 
 ```bash
-cd ironhold-chess
+cd Ironhold-Chess
 ```
 
 Then open:
@@ -178,7 +177,7 @@ No installation or build process is required.
 | Rotate the board | Flip Board button         |
 | Change theme     | Army Colors               |
 | Toggle sound     | Sound button              |
-| Start a new game | New Campaign              |
+| Start a new game | New Game                  |
 
 ---
 
@@ -199,7 +198,7 @@ The entire game currently runs as a self-contained browser application.
 ## 🏗️ Project Structure
 
 ```text
-ironhold-chess/
+Ironhold-Chess/
 │
 ├── index.html
 ├── README.md
@@ -208,8 +207,7 @@ ironhold-chess/
 └── assets/
     └── screenshots/
         ├── gameplay.png
-        ├── battle.png
-        └── checkmate.png
+        └── battle.png
 ```
 
 ---
