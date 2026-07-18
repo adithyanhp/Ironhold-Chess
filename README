@@ -1,140 +1,639 @@
 # ⚔️ Ironhold Chess
 
-> **Two armies. One board. No mercy.**
+> **Two Armies · One Board · No Mercy**
 
-**Ironhold Chess** is a cinematic browser-based chess experience where traditional chess meets animated battlefield combat. Every piece is a unique warrior silhouette with custom SVG artwork, animated combat sequences, sound effects, visual themes, and an AI opponent.
+**Ironhold Chess** is an original browser-based chess experience that turns traditional chess captures into animated battlefield encounters.
 
-🌐 **Live Demo:** [adithyanhp.github.io/Ironhold-Chess](https://adithyanhp.github.io/Ironhold-Chess/)
+Instead of using conventional chess piece images, every piece is represented by a custom-built SVG warrior silhouette. When a capture occurs, the attacking piece charges into battle, the defending piece reacts and falls, impact effects appear, smoke rises from the battlefield, and the board shakes from the collision.
 
----
-
-## 🎮 Features
-
-### ♟️ Chess Gameplay
-*   **Standard Rules**: Full validation for legal moves, check, checkmate, stalemate, and draws.
-*   **Special Moves**: Complete support for castling, en passant, and pawn promotion.
-*   **Match Tracking**: Move history, captured pieces, and real-time material advantage calculation.
-*   **Flexibility**: Move undo and dynamic board flipping.
-
-### ⚔️ Animated Battle System
-*   **Combat Sequences**: Piece-specific attack animations and movement.
-*   **Impact Physics**: Defender reactions, knockback, collapse effects, and impact flashes.
-*   **Atmosphere**: Dynamic board shake effects and ambient smoke.
-
-### 🛡️ Warrior Pieces
-Each piece features custom SVG shapes and distinct CSS animations:
-
-| Chess Piece | Warrior Design |
-| :--- | :--- |
-| ♙ Pawn | Foot Soldier |
-| ♘ Knight | Mounted Warrior |
-| ♗ Bishop | Hooded Mystic |
-| ♖ Rook | Hulking Guardian |
-| ♕ Queen | Regal Twin-Blade Warrior |
-| ♔ King | Crowned Warlord |
-
-### 🤖 Ironhold AI
-Play against a built-in evaluation system weighing material, positioning, mobility, and safety.
-*   **Recruit** — Easy
-*   **Veteran** — Medium
-*   **Warlord** — Hard
-
-### 🎨 Customization & Audio
-*   **Army Themes**: Molten Gold/Obsidian, Neon/Shadow, Ice/Fire, and Bone/Blood Moon.
-*   **Procedural Audio**: Web Audio API movement sounds, capture impacts, and check notifications.
-*   **UI/UX**: Full battle chronicle panel and responsive layouts for desktop, tablet, and mobile.
+This is chess — presented as warfare.
 
 ---
 
-## 🖼️ Screenshots
+## 🎮 Play
 
-### Gameplay
-![Ironhold Chess Gameplay](assets/screenshots/gameplay.png)
+**[Play Ironhold Chess](https://adithyanhp.github.io/Ironhold-Chess/)**
 
-### Battle Animation
-![Ironhold Chess Battle Animation](assets/screenshots/battle.png)
+No installation is required.
 
----
-
-## 🕹️ Getting Started
-
-### Play Online
-Visit the live deployment instantly: [Ironhold Chess Live](https://adithyanhp.github.io/Ironhold-Chess/)
-
-### Run Locally
-No installation or build process is required. 
-
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/adithyanhp/Ironhold-Chess.git
-   ```
-2. Navigate to the project directory:
-   ```bash
-   cd Ironhold-Chess
-   ```
-3. Open `index.html` in any modern web browser.
+Open the game in a modern browser and start playing.
 
 ---
 
-## 🧩 Controls
+## ⚔️ What Makes Ironhold Chess Different?
 
-| Action | Control |
-| :--- | :--- |
-| Select / Move | Click piece, then click legal destination |
-| Pawn Promotion | Selection overlay popup |
-| Undo Move | `Undo Move` button |
-| Rotate Board | `Flip Board` button |
-| Settings | Toggle themes, audio, or start a `New Game` |
+Most chess games treat a capture as a simple piece disappearing from the board.
+
+Ironhold Chess treats a capture as a battle.
+
+```text
+Normal Chess:
+
+♙ × ♟
+Piece captured.
+
+Ironhold Chess:
+
+⚔️
+The attacker charges.
+The defender reacts.
+Impact strikes.
+Smoke rises.
+The battlefield shakes.
+The piece falls.
+```
+
+The game combines a traditional chess engine with a custom visual combat system built entirely in the browser.
 
 ---
 
-## 🛠️ Technologies Used
+## ✨ Features
 
-*   **Languages**: HTML5, CSS3, JavaScript (Vanilla)
-*   **Graphics**: SVG, CSS Animations
-*   **Audio**: Web Audio API
-*   **Hosting**: GitHub Pages
+### ♟️ Complete Chess Rules
+
+The game includes core chess rules and legality validation:
+
+* Standard piece movement
+* Legal move generation
+* Check detection
+* Checkmate detection
+* Stalemate detection
+* Castling
+* En passant
+* Pawn promotion
+* Move notation
+* Turn management
+
+Moves are validated before they are executed, including protection against moves that leave the player's own king in check.
 
 ---
 
-## 🏗️ Project Structure
+### 🤖 Play Against the Ironhold AI
 
-```bash
-Ironhold-Chess/
-├── assets/
-│   └── screenshots/
-│       ├── battle.png
-│       └── gameplay.png
-├── index.html
-├── LICENSE
-└── README.md
+Play against the built-in chess AI or challenge another player locally.
+
+#### Game Modes
+
+* **Two Players**
+* **Vs. The Ironhold AI**
+
+#### AI Strength
+
+* **Recruit** — Easy
+* **Veteran** — Medium
+* **Warlord** — Hard
+
+The AI uses a minimax search algorithm with alpha-beta pruning.
+
+Its evaluation considers:
+
+* Piece material value
+* Board positioning
+* Central control
+* Checkmate positions
+* Search depth
+
+```text
+AI Search
+
+Current Position
+       │
+       ▼
+Generate Legal Moves
+       │
+       ▼
+Simulate Positions
+       │
+       ▼
+Evaluate Positions
+       │
+       ▼
+Minimax Search
+       │
+       ▼
+Alpha-Beta Pruning
+       │
+       ▼
+Select Best Move
 ```
 
 ---
 
-## 🚀 Roadmap
+### ⚔️ Animated Battle Captures
 
-*   [ ] Custom battle arenas and advanced animations
-*   [ ] Online multiplayer integration
-*   [ ] Achievements system and player statistics
-*   [ ] Campaign mode, opening explorer, and chess puzzles
-*   [ ] Match timers (5-minute / 10-minute blitz)
-*   [ ] Draw offers and resignation systems
+Captures are the central visual feature of Ironhold Chess.
+
+When a piece captures another piece, the game creates a temporary battle scene directly on the board.
+
+The battle sequence can include:
+
+* Attacker movement
+* Weapon animations
+* Defender impact reaction
+* Defender collapse
+* Impact flash
+* Smoke particles
+* Board shake
+* Procedural combat sounds
+
+The battle animation is generated dynamically based on the attacking and defending pieces.
 
 ---
 
-## 🎯 Project Vision
+### 🛡️ Custom SVG Warrior Pieces
 
-Most browser chess games focus purely on the board. **Ironhold Chess focuses on the battle.** The goal is to create an experience where every move feels meaningful and every capture feels like a true clash of swords.
+Every chess piece is drawn programmatically using SVG.
 
-> **Chess is strategy. Ironhold Chess is strategy at war.**
+The piece designs are not standard chess icons.
+
+They are custom battlefield silhouettes with articulated components such as:
+
+* Heads
+* Torsos
+* Arms
+* Legs
+* Weapons
+* Crowns
+* Shields
+* Mounts
+* Magical elements
+
+Different pieces have different visual identities and animation behavior.
+
+For example:
+
+| Piece  | Battlefield Identity |
+| ------ | -------------------- |
+| Pawn   | Infantry warrior     |
+| Knight | Mounted warrior      |
+| Bishop | Mystical warrior     |
+| Rook   | Heavy warrior        |
+| Queen  | Elite warrior        |
+| King   | Crowned warlord      |
 
 ---
 
-## 📄 License & Author
+### 🎭 Piece-Specific Combat Animation
 
-*   **Author**: **Adithyan H P** — Experimental developer bridging chess logic with visual game design.
-*   **License**: Distributed under the **GNU General Public License v2.0**. See `LICENSE` for details.
+The combat system uses different animation styles for different warrior types.
 
-⭐ If you enjoy this battlefield, consider giving the repository a star!
-🐛 Found a bug? Open an issue to help improve Ironhold Chess.
+Animations include:
+
+* Sword swings
+* Weapon thrusts
+* Spinning attacks
+* Mounted knight attacks
+* Body movement
+* Head movement
+* Leg movement
+* Torso rotation
+* Magical orb effects
+
+The attacker does not simply move from one square to another.
+
+It performs an animated attack.
+
+---
+
+### 💥 Impact Effects
+
+Captures trigger multiple visual effects:
+
+* Impact flash
+* Screen shake on the board
+* Smoke wisps
+* Defender knockback
+* Defender collapse
+* Animated attacker movement
+
+The battle overlay is created dynamically and removed after the combat animation finishes.
+
+---
+
+### 🔊 Procedural Sound Effects
+
+Ironhold Chess uses the browser's **Web Audio API** to generate sound effects.
+
+Current sound effects include:
+
+* Piece movement
+* Captures
+* Check notifications
+* Impact noise
+* Procedural white noise effects
+
+Sound can be toggled on or off at any time.
+
+---
+
+### 🎨 Four Visual Army Palettes
+
+The battlefield can be visually transformed using four color palettes:
+
+#### 🔥 Molten Gold
+
+Gold vs Deep Obsidian
+
+#### 🌈 Neon
+
+Neon Cyan vs Neon Pink
+
+#### ❄️ Ice
+
+Ice Blue vs Fire Red
+
+#### 💀 Blood Moon
+
+Bone White vs Blood Red
+
+Each palette changes the visual identity of the two opposing armies.
+
+---
+
+### 📜 Battle Chronicle
+
+Every move is recorded in the Chronicle panel.
+
+The move history displays:
+
+* Move numbers
+* White moves
+* Black moves
+* Check notation
+* Checkmate notation
+
+The chronicle automatically scrolls as the battle progresses.
+
+---
+
+### ☠️ Captured Pieces
+
+Captured pieces are tracked separately for both armies.
+
+The game displays:
+
+* Pieces captured by White
+* Pieces captured by Black
+* Captured piece icons
+* Current material advantage
+
+The material difference is calculated using standard piece values:
+
+```text
+Pawn   = 100
+Knight = 320
+Bishop = 330
+Rook   = 500
+Queen  = 900
+King   = 0
+```
+
+---
+
+### ↩️ Undo Moves
+
+The game includes an undo system.
+
+In AI mode, undoing a move goes back through the player's previous turn and the AI's response, allowing the player to reconsider the position.
+
+---
+
+### 🔄 Flip the Board
+
+Rotate the board to view the battlefield from the opposite side.
+
+Useful for:
+
+* Two-player games
+* Different board orientations
+* Viewing the game from the opponent's perspective
+
+---
+
+### 🏆 Game End States
+
+The game detects:
+
+* Checkmate
+* Stalemate
+* Draws
+
+When the battle ends, the game displays a dedicated result state.
+
+Examples include:
+
+```text
+White wins by checkmate
+Black wins by checkmate
+Draw by stalemate
+```
+
+The game also displays battlefield-style result messages such as:
+
+```text
+⚔ VICTORY BY CHECKMATE ⚔
+
+⚔ THE BATTLE ENDS IN A DRAW ⚔
+```
+
+---
+
+## 🕹️ How to Play
+
+### 1. Select a Game Mode
+
+Choose between:
+
+* Two Players
+* Vs. The Ironhold AI
+
+---
+
+### 2. Choose AI Strength
+
+If playing against the AI, select:
+
+* Recruit
+* Veteran
+* Warlord
+
+---
+
+### 3. Select an Army Palette
+
+Choose from four visual themes:
+
+* Gold
+* Neon
+* Ice
+* Blood
+
+---
+
+### 4. Select a Piece
+
+Click one of your pieces.
+
+Legal destinations will be displayed on the board.
+
+---
+
+### 5. Make Your Move
+
+Click a highlighted legal square.
+
+If the move is a capture, the battle animation begins.
+
+---
+
+## 🎮 Controls
+
+| Action              | Control              |
+| ------------------- | -------------------- |
+| Select a piece      | Click                |
+| Move a piece        | Click a legal square |
+| Promote a pawn      | Select a champion    |
+| Start a new game    | New Campaign         |
+| Undo a move         | Undo Move            |
+| Rotate the board    | Flip Board           |
+| Toggle sound        | Sound: On / Off      |
+| Change visual theme | Army Colors          |
+
+---
+
+## 🛠️ Technology
+
+Ironhold Chess is built using web technologies without a framework or build system.
+
+### Core Technologies
+
+* HTML5
+* CSS3
+* JavaScript
+* SVG
+* CSS Animations
+* Web Audio API
+
+### AI
+
+* Minimax
+* Alpha-beta pruning
+* Material evaluation
+* Positional evaluation
+* Legal move generation
+
+### Rendering
+
+* Dynamic DOM rendering
+* Programmatically generated SVG warriors
+* CSS animation system
+* Temporary battle overlays
+* Particle-style smoke effects
+
+---
+
+## 🧱 Architecture
+
+Ironhold Chess is implemented as a self-contained browser application.
+
+```text
+┌──────────────────────────────┐
+│          User Interface       │
+│                              │
+│  Board · Controls · Chronicle │
+│  Captured Pieces · Status     │
+└──────────────┬───────────────┘
+               │
+               ▼
+┌──────────────────────────────┐
+│         Chess Engine          │
+│                              │
+│  Move Generation              │
+│  Legality Validation          │
+│  Check Detection              │
+│  Checkmate Detection          │
+│  Stalemate Detection          │
+│  Castling                     │
+│  En Passant                   │
+│  Promotion                    │
+└──────────────┬───────────────┘
+               │
+               ▼
+┌──────────────────────────────┐
+│             AI               │
+│                              │
+│  Position Evaluation          │
+│  Minimax                      │
+│  Alpha-Beta Pruning           │
+└──────────────┬───────────────┘
+               │
+               ▼
+┌──────────────────────────────┐
+│       Battle Presentation     │
+│                              │
+│  SVG Warriors                 │
+│  Attack Animations            │
+│  Impact Effects               │
+│  Smoke Effects                │
+│  Board Shake                  │
+│  Sound Effects                │
+└──────────────────────────────┘
+```
+
+---
+
+## 📁 Project Structure
+
+```text
+Ironhold-Chess/
+│
+├── index.html
+├── README.md
+└── LICENSE
+```
+
+The current game is intentionally self-contained in a single HTML file.
+
+That file contains:
+
+* The user interface
+* Styling
+* SVG artwork
+* Chess engine
+* AI
+* Animation system
+* Audio system
+* Game state management
+
+---
+
+## 🚀 Run Locally
+
+Clone the repository:
+
+```bash
+git clone https://github.com/adithyanhp/Ironhold-Chess.git
+```
+
+Enter the project directory:
+
+```bash
+cd Ironhold-Chess
+```
+
+Open `index.html` in a modern web browser.
+
+No package installation is required.
+
+No build process is required.
+
+No backend server is required.
+
+---
+
+## 🌐 Browser Support
+
+Ironhold Chess is designed for modern browsers that support:
+
+* ES6 JavaScript
+* SVG
+* CSS animations
+* Web Audio API
+
+Recommended browsers include:
+
+* Google Chrome
+* Microsoft Edge
+* Mozilla Firefox
+* Safari
+
+---
+
+## 🪟 Install as an App
+
+Ironhold Chess can be run in its own window using the browser's install functionality.
+
+On Windows 11:
+
+1. Open Ironhold Chess in a supported browser.
+2. Open the browser menu.
+3. Choose the option to install the site as an app.
+
+This allows the game to run in its own application-style window.
+
+---
+
+## 🗺️ Roadmap
+
+The current version focuses on building the foundation of the Ironhold experience.
+
+### Planned
+
+* [ ] Custom battle arenas
+* [ ] More unique combat animations
+* [ ] Chess puzzle mode
+* [ ] Achievement system
+* [ ] Campaign mode
+* [ ] AI personalities
+* [ ] Chess timers
+* [ ] 5-minute games
+* [ ] 10-minute games
+* [ ] Draw offers
+* [ ] Resignation system
+* [ ] Expanded game result screens
+* [ ] More army themes
+* [ ] More warrior designs
+* [ ] Online multiplayer
+
+---
+
+## 🎯 Vision
+
+Ironhold Chess is built around a simple idea:
+
+> **What if a chess capture felt like a battle?**
+
+The project combines the strategic depth of chess with the visual language of a battlefield.
+
+The goal is not to replace chess with a different game.
+
+The goal is to make every move feel more alive.
+
+---
+
+## 🤝 Contributing
+
+Ideas, feedback, bug reports, and contributions are welcome.
+
+You can contribute by:
+
+* Reporting bugs
+* Suggesting gameplay improvements
+* Proposing new battle animations
+* Designing new warrior concepts
+* Suggesting new visual palettes
+* Improving the chess engine
+* Improving the AI
+* Submitting pull requests
+
+---
+
+## 📄 License
+
+This project is licensed under the **GPL-2.0 License**.
+
+See the [`LICENSE`](LICENSE) file for details.
+
+---
+
+## 👨‍💻 Author
+
+**Adithyan H P**
+
+---
+
+<p align="center">
+
+⚔️ **Enter the battlefield. Make your move.** ⚔️
+
+</p>
