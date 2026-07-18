@@ -134,13 +134,6 @@ The board automatically adapts to the available screen width.
 
 ![Checkmate](assets/screenshots/checkmate.png)
 
-Recommended screenshots:
-
-* Main gameplay
-* AI battle
-* Capture animation
-* Theme selection
-* Checkmate screen
 
 ---
 
@@ -159,7 +152,7 @@ https://adithyanhp.github.io/Ironhold-Chess/
 Clone the repository:
 
 ```bash
-git clone https://github.com/adithyanhp/ironhold-chess.git
+git clone https://github.com/adithyanhp/Ironhold-Chess.git
 ```
 
 Open the project directory:
