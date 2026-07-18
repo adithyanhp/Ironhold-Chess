@@ -1,4 +1,4 @@
-# ⚔️ Ironhold Chess
+# ⚔️ **Ironhold Chess**
 
 > **Two armies. One board. No mercy.**
 
@@ -46,14 +46,14 @@ The goal is to make every capture feel like an actual clash between two armies.
 
 Each chess piece has its own visual identity:
 
-| Chess Piece | Warrior Design           |
-| ----------- | ------------------------ |
-| ♙ Pawn      | Foot Soldier             |
-| ♘ Knight    | Mounted Warrior          |
-| ♗ Bishop    | Hooded Mystic            |
-| ♖ Rook      | Hulking Guardian         |
-| ♕ Queen     | Regal Twin-Blade Warrior |
-| ♔ King      | Crowned Warlord          |
+| Chess Piece | Warrior Design |
+| :--- | :--- |
+| ♙ Pawn | Foot Soldier |
+| ♘ Knight | Mounted Warrior |
+| ♗ Bishop | Hooded Mystic |
+| ♖ Rook | Hulking Guardian |
+| ♕ Queen | Regal Twin-Blade Warrior |
+| ♔ King | Crowned Warlord |
 
 All character artwork is created using custom SVG shapes and CSS animations.
 
@@ -124,11 +124,11 @@ The board automatically adapts to the available screen width.
 
 ### Gameplay
 
-<img src="https://raw.githubusercontent.com/adithyanhp/Ironhold-Chess/main/assets/screenshots/gameplay.png" alt="Ironhold Chess Gameplay" width="800">
+![Ironhold Chess Gameplay](assets/screenshots/gameplay.png)
 
 ### Battle Animation
 
-<img src="https://raw.githubusercontent.com/adithyanhp/Ironhold-Chess/main/assets/screenshots/battle.png" alt="Ironhold Chess Battle Animation" width="800">
+![Ironhold Chess Battle Animation](assets/screenshots/battle.png)
 
 ---
 
@@ -145,7 +145,7 @@ https://adithyanhp.github.io/Ironhold-Chess/
 Clone the repository:
 
 ```bash
-git clone https://github.com/adithyanhp/Ironhold-Chess.git
+git clone [https://github.com/adithyanhp/Ironhold-Chess.git](https://github.com/adithyanhp/Ironhold-Chess.git)
 ```
 
 Open the project directory:
@@ -168,16 +168,16 @@ No installation or build process is required.
 
 ## 🧩 Controls
 
-| Action           | Control                   |
-| ---------------- | ------------------------- |
-| Select a piece   | Click                     |
-| Move a piece     | Click a legal destination |
-| Promote a pawn   | Select a promotion piece  |
-| Undo a move      | Undo Move button          |
-| Rotate the board | Flip Board button         |
-| Change theme     | Army Colors               |
-| Toggle sound     | Sound button              |
-| Start a new game | New Game                  |
+| Action | Control |
+| :--- | :--- |
+| Select a piece | Click |
+| Move a piece | Click a legal destination |
+| Promote a pawn | Select a promotion piece |
+| Undo a move | Undo Move button |
+| Rotate the board | Flip Board button |
+| Change theme | Army Colors |
+| Toggle sound | Sound button |
+| Start a new game | New Game |
 
 ---
 
