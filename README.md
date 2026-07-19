@@ -20,6 +20,18 @@ No installation required — open it in a modern browser and start playing.
 
 ---
 
+## 🆕 What's New
+
+This release adds three major systems on top of the original battle-chess experience:
+
+- ⏱️ **Chess clocks** — No Clock, 5-minute, or 10-minute timed games, with a visually emphasized active clock and a proper "Time Out" result.
+- 🏆 **A real game-over screen** — checkmate, stalemate, draw, and time-out now end the game with a chess.com-style result card instead of a small status line.
+- 🧩 **Puzzle mode** — five hand-verified tactical puzzles (mates and forks) with hints, and chess.com-style move feedback: a correct move flashes green, a wrong move visibly lands, bounces back with a shake, and buzzes — instead of silently refusing the move.
+
+See the [Features](#-features) section below for the full list.
+
+---
+
 ## ⚔️ What Makes Ironhold Chess Different?
 
 Most chess games treat a capture as a piece quietly disappearing from the board.
@@ -57,6 +69,28 @@ The game combines a traditional, fully-legal chess engine with a custom visual c
 
 Every move is validated before it's executed, including protection against moves that would leave your own king in check.
 
+### 🏆 Game-Over Result Screen
+
+Checkmate, stalemate, draw, and time-out all end the game with a dedicated result card — icon, title, and outcome — with **New Campaign** and **Close** actions, instead of a small inline status message.
+
+### ⏱️ Chess Clocks
+
+Play untimed, or set a **5-minute** or **10-minute** clock per side from the Command panel. The active player's clock is visually highlighted and turns red under 30 seconds. Running out of time ends the game immediately with a "Time Out" result.
+
+### 🧩 Puzzle Mode
+
+Five tactical puzzles — verified move-by-move against the game's own legality and checkmate-detection engine, not just eyeballed:
+
+| Puzzle            | Type          |
+| ----------------- | ------------- |
+| Back-Rank Break   | Mate in 1     |
+| The Guarded Queen | Mate in 1     |
+| Royal Fork        | Win the queen |
+| Diagonal Strike   | Mate in 1     |
+| The Two-Move Trap | Mate in 2     |
+
+You can move **any** of your pieces to explore the position — only the correct solution move is accepted. A correct move flashes the destination square green; an incorrect one visibly lands, then bounces back with a shake and a buzzer, just like chess.com's puzzle trainer. A 💡 **Hint** button highlights the right piece to move without giving away the destination.
+
 ### 🤖 Play Against the Ironhold AI
 
 Two game modes — **Two Players** locally, or **Vs. The Ironhold AI** — with three AI strengths:
@@ -77,14 +111,14 @@ Every capture plays out as a short, choreographed fight: wind-up, step-in, weapo
 
 Every piece is an original design, drawn and rigged entirely in SVG — not a recolored chess font or icon set. Each has its own head, torso, arms, legs, and weapon, so limbs can animate independently instead of the whole piece moving as one block.
 
-| Piece  | Battlefield Identity                                 |
-| ------ | ---------------------------------------------------- |
-| Pawn   | Infantry soldier — short sword                       |
-| Knight | Mounted rider — rearing warhorse and blade           |
-| Bishop | Hooded mystic — dark energy staff                    |
-| Rook   | Armored guardian — crenellated helm and tower shield |
-| Queen  | Regal duelist — flowing gown and twin curved blades  |
-| King   | Crowned warlord — greatsword and orb-finial crown    |
+| Piece  | Battlefield Identity                                                    |
+| ------ | ----------------------------------------------------------------------- |
+| Pawn   | Infantry soldier — short sword                                          |
+| Knight | Mounted rider — rearing warhorse and blade                              |
+| Bishop | Hooded mystic — dark energy staff, flowing gothic hood                  |
+| Rook   | Armored guardian — crenellated tower helm, battlement shield, pauldrons |
+| Queen  | Regal duelist — flowing gown, train, curved twin blades                 |
+| King   | Crowned warlord — greatsword, orb-finial crown                          |
 
 ### 🎭 Piece-Specific Combat Animation
 
@@ -107,28 +141,24 @@ A scrolling move log with full algebraic notation, including check and checkmate
 
 Both armies' captured pieces are tracked separately, alongside a running material advantage indicator.
 
+### 🗺️ Labeled Board
+
+Full file (a–h) and rank (1–8) labels along the board edges, and the last-moved squares are highlighted so you can always see what just happened.
+
 ### ↩️ Undo, 🔄 Flip Board, and 🔊 Sound Toggle
 
 Undo a move (including the AI's reply when playing against it), flip the board to view from either side, and toggle procedural sound effects on or off.
-
-### 🏆 Game End States
-
-Checkmate, stalemate, and draw are all detected and announced with a dedicated battlefield-style result banner:
-
-```text
-⚔ VICTORY BY CHECKMATE ⚔
-⚔ THE BATTLE ENDS IN A DRAW ⚔
-```
 
 ---
 
 ## 🕹️ How to Play
 
-1. **Choose a game mode** — Two Players, or Vs. the Ironhold AI.
+1. **Choose a game mode** — Two Players, Vs. the Ironhold AI, or Puzzles.
 2. **If playing the AI**, pick a strength: Recruit, Veteran, or Warlord.
-3. **Pick an army palette** — Gold, Neon, Ice, or Blood.
-4. **Click a piece** to see its legal destinations highlighted on the board.
-5. **Click a highlighted square** to move. If it's a capture, the battle plays out automatically.
+3. **If you want a timed game**, pick a Time Control: No Clock, 5 Minutes, or 10 Minutes.
+4. **Pick an army palette** — Gold, Neon, Ice, or Blood.
+5. **Click a piece** to see its legal destinations highlighted on the board.
+6. **Click a highlighted square** to move. If it's a capture, the battle plays out automatically.
 
 ## 🎮 Controls
 
@@ -142,6 +172,8 @@ Checkmate, stalemate, and draw are all detected and announced with a dedicated b
 | Rotate the board    | Flip Board           |
 | Toggle sound        | Sound: On / Off      |
 | Change visual theme | Army Colors          |
+| Set a time control  | Time Control         |
+| Get a puzzle hint   | 💡 Hint               |
 
 ---
 
@@ -152,7 +184,7 @@ Built with plain web technologies — no framework, no build system, no dependen
 - **Core:** HTML5, CSS3, JavaScript, SVG, CSS animations
 - **Audio:** Web Audio API (procedurally generated, no audio files)
 - **AI:** Minimax with alpha-beta pruning, material + positional evaluation
-- **Rendering:** Dynamic DOM updates, programmatically generated SVG figures, temporary battle overlays for capture sequences
+- **Rendering:** Persistent, diff-based DOM updates, programmatically generated SVG figures, temporary battle overlays for capture sequences
 
 ---
 
@@ -169,7 +201,7 @@ Ironhold-Chess/
         └── battle.png
 ```
 
-The game itself is intentionally self-contained in a single `index.html` — UI, styling, SVG artwork, chess engine, AI, animation system, and audio all live in one file.
+The game itself is intentionally self-contained in a single `index.html` — UI, styling, SVG artwork, chess engine, AI, puzzles, clocks, animation system, and audio all live in one file.
 
 ---
 
@@ -196,13 +228,13 @@ Ironhold Chess can run in its own window via your browser's install feature. On 
 
 ## 🗺️ Roadmap
 
-- [ ] Custom battle arenas
-- [ ] More unique combat animations
-- [ ] Chess puzzle mode
-- [ ] Achievement system
-- [ ] Campaign mode
-- [ ] AI personalities
-- [ ] Chess timers (5-minute / 10-minute games)
+- [ ] Custom battle arenas (Frozen Wastes, Bloodmoon Battlefield, Neon Ruins, Ancient Temple)
+- [ ] More unique per-piece combat animations
+- [ ] More puzzle categories (pin, discovered attack, endgame puzzles) and a puzzle streak counter
+- [ ] Achievement system (persisted via localStorage)
+- [ ] Campaign mode with mission-based win conditions
+- [ ] AI personalities (Aggressor, Defender, Strategist, Berserker)
+- [ ] Clock increments (5+3, 10+5, etc.)
 - [ ] Draw offers and resignation
 - [ ] More army themes and warrior designs
 - [ ] Online multiplayer
