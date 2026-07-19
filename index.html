@@ -382,6 +382,65 @@ select{
   color:var(--parchment); text-shadow:0 0 18px rgba(179,155,255,0.4); min-height:26px;
 }
 
+/* ---------- RESULT MODAL (checkmate / draw / time / puzzle) ---------- */
+.result-veil{ z-index:250; }
+.result-modal{
+  background:linear-gradient(180deg, var(--stone-light), var(--stone));
+  border:1px solid var(--amber); border-radius:12px; padding:34px 38px; text-align:center;
+  box-shadow:0 30px 80px rgba(0,0,0,0.75), 0 0 40px rgba(201,163,90,0.15);
+  max-width:360px; animation:resultPop 0.35s cubic-bezier(.3,.6,.3,1);
+}
+@keyframes resultPop{ 0%{ transform:scale(0.85); opacity:0; } 100%{ transform:scale(1); opacity:1; } }
+.result-icon{ font-size:46px; margin-bottom:12px; line-height:1; }
+.result-title{
+  font-family:var(--font-display); font-size:26px; margin:0 0 8px; color:var(--parchment);
+  text-shadow:0 0 20px rgba(179,155,255,0.4);
+}
+.result-sub{ font-family:var(--font-body); font-size:15px; color:var(--parchment-dim); margin:0 0 24px; }
+.result-btns{ display:flex; gap:10px; justify-content:center; }
+.result-btns .btn{ min-width:120px; }
+
+/* ---------- CLOCKS ---------- */
+.clock-panel{ text-align:center; padding:12px 16px; transition:box-shadow 0.2s ease, border-color 0.2s ease; }
+.clock-display{
+  font-family:var(--font-mono); font-size:30px; letter-spacing:0.04em; color:var(--parchment-dim);
+  transition:color 0.2s ease;
+}
+.clock-panel.active{ border-color:var(--amber); box-shadow:inset 0 0 0 1px rgba(0,0,0,0.4), 0 0 16px rgba(201,163,90,0.25); }
+.clock-panel.active .clock-display{ color:var(--amber); }
+.clock-panel.low .clock-display{ color:#ff6b5e; animation:pulseWarn 1s ease-in-out infinite; }
+
+/* ---------- PUZZLE PANEL ---------- */
+.puzzle-objective{ font-family:var(--font-body); font-size:14px; color:var(--parchment); line-height:1.5; margin-bottom:10px; }
+.puzzle-feedback{ font-family:var(--font-head); font-size:11.5px; letter-spacing:0.06em; text-transform:uppercase; min-height:16px; margin-bottom:10px; color:var(--parchment-dim); }
+.puzzle-feedback.wrong{ color:#ff6b5e; }
+.puzzle-feedback.right{ color:#7fd48a; }
+
+.sq.puzzle-wrong-shake{ animation:puzzleWrongShake 0.45s ease; }
+.sq.puzzle-wrong-shake::after{
+  content:''; position:absolute; inset:0; background:rgba(224,69,63,0.32); pointer-events:none; z-index:6;
+  animation:puzzleFlashFade 0.45s ease;
+}
+@keyframes puzzleWrongShake{
+  0%,100%{ transform:translateX(0); }
+  20%{ transform:translateX(-6px); }
+  40%{ transform:translateX(5px); }
+  60%{ transform:translateX(-4px); }
+  80%{ transform:translateX(3px); }
+}
+.sq.puzzle-correct-flash::after{
+  content:''; position:absolute; inset:0; background:rgba(127,212,138,0.38); pointer-events:none; z-index:6;
+  animation:puzzleFlashFade 0.9s ease;
+}
+@keyframes puzzleFlashFade{ 0%{ opacity:1; } 100%{ opacity:0; } }
+.sq.puzzle-hint::before{
+  content:''; position:absolute; inset:-2px; border-radius:6px;
+  box-shadow:0 0 0 3px rgba(217,163,74,0.85), 0 0 18px rgba(217,163,74,0.6);
+  pointer-events:none; z-index:6; animation:puzzleHintPulse 0.9s ease-in-out infinite;
+}
+@keyframes puzzleHintPulse{ 0%,100%{ opacity:0.55; } 50%{ opacity:1; } }
+.puzzle-ghost-slot{ position:absolute; inset:0; display:flex; align-items:flex-end; justify-content:center; pointer-events:none; z-index:8; }
+
 .footnote{
   text-align:center; margin-top:34px; font-family:var(--font-mono); font-size:11px;
   color:var(--parchment-dim); opacity:0.6; line-height:1.7;
@@ -401,6 +460,10 @@ select{
   <div class="table">
 
     <div class="side-panel-stack" style="display:flex; flex-direction:column; gap:18px;">
+      <div class="side-panel clock-panel" id="clockPanelWhite">
+        <div class="panel-title">White's Clock</div>
+        <div class="clock-display" id="clockWhite">--:--</div>
+      </div>
       <div class="side-panel">
         <div class="panel-title">Captured — by White</div>
         <div class="tray" id="capByWhite"></div>
@@ -426,6 +489,10 @@ select{
     </div>
 
     <div class="side-panel-stack" style="display:flex; flex-direction:column; gap:18px;">
+      <div class="side-panel clock-panel" id="clockPanelBlack">
+        <div class="panel-title">Black's Clock</div>
+        <div class="clock-display" id="clockBlack">--:--</div>
+      </div>
       <div class="side-panel">
         <div class="panel-title">Captured — by Black</div>
         <div class="tray" id="capByBlack"></div>
@@ -437,6 +504,7 @@ select{
         <select id="modeSelect">
           <option value="pvp">Two Players</option>
           <option value="ai" selected>Vs. The Ironhold AI</option>
+          <option value="puzzle">Puzzles</option>
         </select>
         <div style="height:10px;"></div>
         <div id="aiOptions">
@@ -445,6 +513,15 @@ select{
             <option value="1">Recruit (easy)</option>
             <option value="2" selected>Veteran (medium)</option>
             <option value="3">Warlord (hard)</option>
+          </select>
+        </div>
+        <div id="timeControlRow">
+          <div style="height:10px;"></div>
+          <label class="field-label">Time Control</label>
+          <select id="timeControlSelect">
+            <option value="0" selected>No Clock</option>
+            <option value="300">5 Minutes</option>
+            <option value="600">10 Minutes</option>
           </select>
         </div>
         <div style="height:10px;"></div>
@@ -460,6 +537,17 @@ select{
           <div class="btn" id="undoBtn">Undo Move</div>
           <div class="btn" id="flipBtn">Flip Board</div>
           <div class="btn" id="soundBtn">Sound: On</div>
+        </div>
+      </div>
+      <div class="side-panel" id="puzzlePanel" style="display:none;">
+        <div class="panel-title">Puzzle <span id="puzzleNum">1</span> / <span id="puzzleTotal">5</span> — <span id="puzzleTitle"></span></div>
+        <div class="puzzle-objective" id="puzzleObjective"></div>
+        <div class="puzzle-feedback" id="puzzleFeedback"></div>
+        <div class="controls">
+          <div class="btn" id="puzzlePrevBtn">◀ Previous</div>
+          <div class="btn" id="puzzleHintBtn">💡 Hint</div>
+          <div class="btn" id="puzzleRetryBtn">Retry Puzzle</div>
+          <div class="btn primary" id="puzzleNextBtn">Next Puzzle ▶</div>
         </div>
       </div>
     </div>
@@ -901,8 +989,55 @@ function buildKnightSVG(color){
 }
 
 /* =========================================================
-   GAME STATE
+   PUZZLES
+   Each position and solution line below was verified against
+   this file's own move-legality and checkmate-detection engine
+   before being included — every "solution" ply is confirmed to
+   be a legal move, and every mate claim is confirmed to actually
+   be checkmate (no legal replies + king in check).
    ========================================================= */
+function algToRC(a){ const col=FILES.indexOf(a[0]); const row=8-parseInt(a[1],10); return {row,col}; }
+function parsePly(str){ return { from:algToRC(str.slice(0,2)), to:algToRC(str.slice(2,4)) }; }
+function buildPuzzleBoard(pieces){
+  const b = Array.from({length:8},()=>Array(8).fill(null));
+  for(const p of pieces){ const {row,col}=algToRC(p.at); b[row][col]={type:p.t, color:p.c}; }
+  return b;
+}
+
+const PUZZLES = [
+  {
+    title:'Back-Rank Break', turn:'w', objective:'White to move — deliver checkmate in 1.',
+    pieces:[{t:'K',c:'w',at:'g1'},{t:'P',c:'w',at:'f2'},{t:'P',c:'w',at:'g2'},{t:'P',c:'w',at:'h2'},{t:'R',c:'w',at:'d1'},
+            {t:'K',c:'b',at:'g8'},{t:'P',c:'b',at:'f7'},{t:'P',c:'b',at:'g7'},{t:'P',c:'b',at:'h7'}],
+    solution:['d1d8'], success:'Mate! The rook storms the undefended back rank.'
+  },
+  {
+    title:'The Guarded Queen', turn:'w', objective:'White to move — deliver checkmate in 1.',
+    pieces:[{t:'K',c:'w',at:'a1'},{t:'N',c:'w',at:'f5'},{t:'Q',c:'w',at:'h6'},
+            {t:'K',c:'b',at:'g8'},{t:'P',c:'b',at:'f7'},{t:'P',c:'b',at:'g7'},{t:'P',c:'b',at:'h7'}],
+    solution:['h6g7'], success:'Mate! The knight guards the queen\u2019s final step.'
+  },
+  {
+    title:'Royal Fork', turn:'w', objective:'White to move — win the queen with one move.',
+    pieces:[{t:'K',c:'w',at:'g1'},{t:'P',c:'w',at:'g2'},{t:'P',c:'w',at:'h2'},{t:'N',c:'w',at:'h5'},
+            {t:'K',c:'b',at:'e8'},{t:'Q',c:'b',at:'d7'},{t:'P',c:'b',at:'a7'},{t:'P',c:'b',at:'b7'}],
+    solution:['h5f6'], success:'Forked! The knight checks the king and skewers the queen in one leap.'
+  },
+  {
+    title:'Diagonal Strike', turn:'w', objective:'White to move — deliver checkmate in 1.',
+    pieces:[{t:'K',c:'w',at:'a8'},{t:'N',c:'w',at:'e6'},{t:'Q',c:'w',at:'a1'},
+            {t:'K',c:'b',at:'g8'},{t:'P',c:'b',at:'f7'},{t:'P',c:'b',at:'h7'}],
+    solution:['a1g7'], success:'Mate! The queen slides home along the long diagonal.'
+  },
+  {
+    title:'The Two-Move Trap', turn:'w', objective:'White to move — force checkmate in 2.',
+    pieces:[{t:'K',c:'w',at:'g1'},{t:'P',c:'w',at:'f2'},{t:'P',c:'w',at:'h2'},{t:'R',c:'w',at:'e1'},{t:'Q',c:'w',at:'c1'},
+            {t:'K',c:'b',at:'g8'},{t:'P',c:'b',at:'f7'},{t:'P',c:'b',at:'h7'}],
+    solution:['e1e8','g8g7','c1g5'], success:'Checkmate in two! The rook drives the king out, and the queen finishes it.'
+  }
+];
+
+
 let game;
 function newGame(){
   game = {
@@ -929,6 +1064,14 @@ let soundOn=true;
 let mode='ai';
 let aiDepth=3;
 let animating=false;
+
+let clockEnabled=false;
+let clockInitial=0;
+let clockTime={w:0,b:0};
+let clockInterval=null;
+
+let puzzleState={ index:0, plyIndex:0, humanColor:'w', solved:false };
+function currentPuzzle(){ return PUZZLES[puzzleState.index]; }
 
 /* ---------------- AUDIO ---------------- */
 let actx=null;
@@ -957,6 +1100,8 @@ function playCaptureSound(){
   }
 }
 function playCheckSound(){ ensureAudio(); playTone(500,0.1,'square',0.06); setTimeout(()=>playTone(650,0.12,'square',0.06),90); }
+function playWrongSound(){ ensureAudio(); playTone(200,0.14,'sawtooth',0.07); setTimeout(()=>playTone(130,0.18,'sawtooth',0.07),100); }
+function playCorrectSound(){ ensureAudio(); playTone(500,0.08,'triangle',0.06); setTimeout(()=>playTone(700,0.14,'triangle',0.07),90); }
 
 /* ---------------- RENDER ---------------- */
 const boardEl=document.getElementById('board');
@@ -1074,6 +1219,7 @@ function render(){
   renderTrays();
   renderMoveLog();
   renderStatus();
+  updateClockUI();
 }
 
 function miniPieceIcon(type,color){
@@ -1126,7 +1272,9 @@ function renderStatus(){
   statusBox.classList.remove('check');
   if(game.gameOver){
     statusBox.textContent=game.result;
-    gameOverBanner.textContent = game.result.includes('checkmate') ? '⚔ VICTORY BY CHECKMATE ⚔' : '⚔ THE BATTLE ENDS IN A DRAW ⚔';
+    if(game.result.includes('checkmate')) gameOverBanner.textContent='⚔ VICTORY BY CHECKMATE ⚔';
+    else if(game.result.includes('time')) gameOverBanner.textContent='⏱ VICTORY ON TIME ⏱';
+    else gameOverBanner.textContent='⚔ THE BATTLE ENDS IN A DRAW ⚔';
     return;
   }
   const who = game.turn==='w' ? 'White' : 'Black';
@@ -1137,11 +1285,217 @@ function renderStatus(){
   }
 }
 
+/* ---------------- RESULT MODAL (checkmate / draw / time / puzzle) ---------- */
+function showResultModal(icon, title, subtitle, buttons){
+  const veil=document.createElement('div'); veil.className='modal-veil result-veil';
+  const modal=document.createElement('div'); modal.className='result-modal';
+  const iconEl=document.createElement('div'); iconEl.className='result-icon'; iconEl.textContent=icon;
+  const h=document.createElement('h2'); h.className='result-title'; h.textContent=title;
+  const p=document.createElement('p'); p.className='result-sub'; p.textContent=subtitle||'';
+  const btnRow=document.createElement('div'); btnRow.className='result-btns';
+  buttons.forEach(b=>{
+    const el=document.createElement('div');
+    el.className='btn'+(b.primary?' primary':'');
+    el.textContent=b.label;
+    el.addEventListener('click',()=>{ document.body.removeChild(veil); b.onClick&&b.onClick(); });
+    btnRow.appendChild(el);
+  });
+  modal.appendChild(iconEl); modal.appendChild(h); modal.appendChild(p); modal.appendChild(btnRow);
+  veil.appendChild(modal);
+  document.body.appendChild(veil);
+}
+
+function maybeShowGameOverModal(){
+  if(!game.gameOver) return;
+  let icon='⚔️', title='Game Over';
+  if(game.result.includes('checkmate')){ icon='♚'; title='Checkmate!'; }
+  else if(game.result.includes('time')){ icon='⏱️'; title='Time Out!'; }
+  else { icon='🤝'; title='Draw!'; }
+  showResultModal(icon, title, game.result, [
+    { label:'Close', onClick(){} },
+    { label:'New Campaign', primary:true, onClick(){ startNewSession(); } }
+  ]);
+}
+
+/* ---------------- CLOCKS ---------------- */
+function formatClock(sec){
+  if(sec<0) sec=0;
+  const m=Math.floor(sec/60), s=Math.floor(sec%60);
+  return String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+}
+function resetClockTimes(){ clockTime.w=clockInitial; clockTime.b=clockInitial; }
+function updateClockUI(){
+  const wEl=document.getElementById('clockWhite'), bEl=document.getElementById('clockBlack');
+  const wPanel=document.getElementById('clockPanelWhite'), bPanel=document.getElementById('clockPanelBlack');
+  if(!clockEnabled || mode==='puzzle'){
+    wEl.textContent='--:--'; bEl.textContent='--:--';
+    wPanel.classList.remove('active','low'); bPanel.classList.remove('active','low');
+    return;
+  }
+  wEl.textContent=formatClock(clockTime.w);
+  bEl.textContent=formatClock(clockTime.b);
+  wPanel.classList.toggle('active', game.turn==='w' && !game.gameOver);
+  bPanel.classList.toggle('active', game.turn==='b' && !game.gameOver);
+  wPanel.classList.toggle('low', clockTime.w<=30);
+  bPanel.classList.toggle('low', clockTime.b<=30);
+}
+function stopClock(){ if(clockInterval){ clearInterval(clockInterval); clockInterval=null; } }
+function startClock(){
+  stopClock();
+  if(!clockEnabled || mode==='puzzle') return;
+  clockInterval=setInterval(()=>{
+    if(game.gameOver || mode==='puzzle') return;
+    clockTime[game.turn]=Math.max(0, clockTime[game.turn]-1);
+    updateClockUI();
+    if(clockTime[game.turn]<=0){
+      stopClock();
+      game.gameOver=true;
+      const winner = game.turn==='w' ? 'Black' : 'White';
+      game.result = winner+' wins on time';
+      game.inCheckColor=null;
+      render();
+      maybeShowGameOverModal();
+    }
+  }, 1000);
+}
+
+/* ---------------- PUZZLES ---------------- */
+function updatePuzzleInfoUI(){
+  const pz=currentPuzzle();
+  document.getElementById('puzzleNum').textContent = puzzleState.index+1;
+  document.getElementById('puzzleTitle').textContent = pz.title;
+  document.getElementById('puzzleObjective').textContent = pz.objective;
+  const fb=document.getElementById('puzzleFeedback');
+  fb.textContent=''; fb.className='puzzle-feedback';
+}
+
+function loadPuzzle(idx){
+  puzzleState.index = ((idx % PUZZLES.length) + PUZZLES.length) % PUZZLES.length;
+  puzzleState.plyIndex = 0;
+  puzzleState.solved = false;
+  const pz=currentPuzzle();
+  puzzleState.humanColor = pz.turn;
+  game = {
+    board: buildPuzzleBoard(pz.pieces),
+    turn: pz.turn,
+    castling:{wK:false,wQ:false,bK:false,bQ:false},
+    ep:null,
+    moveLog:[],
+    capturedByWhite:[], capturedByBlack:[],
+    gameOver:false, result:null, inCheckColor:null, lastMove:null, history:[]
+  };
+  selected=null; legalTargets=[];
+  updatePuzzleInfoUI();
+  render();
+}
+
+function expectedPuzzlePly(){
+  const pz=currentPuzzle();
+  if(puzzleState.plyIndex >= pz.solution.length) return null;
+  return parsePly(pz.solution[puzzleState.plyIndex]);
+}
+
+function checkPuzzleMove(move){
+  const expected=expectedPuzzlePly();
+  if(!expected) return false;
+  return move.from.row===expected.from.row && move.from.col===expected.from.col &&
+         move.to.row===expected.to.row && move.to.col===expected.to.col;
+}
+
+function showPuzzleWrong(fromRC, toRC){
+  const el=document.getElementById('puzzleFeedback');
+  el.textContent='Not the best move — try again.';
+  el.className='puzzle-feedback wrong';
+  playWrongSound();
+
+  const fromSq=findSquareEl(fromRC.row, fromRC.col);
+  const toSq=findSquareEl(toRC.row, toRC.col);
+  if(!fromSq || !toSq){ return; }
+  const slot=fromSq.querySelector('.piece-slot');
+  if(!slot || !slot.firstChild){ return; }
+
+  // Let the piece visually land on the wrong square first, like chess.com does,
+  // then snap back with a shake — rather than silently refusing the move.
+  animating=true;
+  const ghostSlot=document.createElement('div');
+  ghostSlot.className='puzzle-ghost-slot';
+  const ghostPiece=slot.firstChild.cloneNode(true);
+  ghostSlot.appendChild(ghostPiece);
+  toSq.appendChild(ghostSlot);
+  slot.style.visibility='hidden';
+
+  setTimeout(()=>{
+    if(ghostSlot.parentNode) ghostSlot.parentNode.removeChild(ghostSlot);
+    slot.style.visibility='';
+    fromSq.classList.add('puzzle-wrong-shake');
+    setTimeout(()=>{
+      fromSq.classList.remove('puzzle-wrong-shake');
+      animating=false;
+    }, 450);
+  }, 380);
+}
+
+function showPuzzleCorrectFlash(toRC){
+  const sqEl=findSquareEl(toRC.row, toRC.col);
+  if(!sqEl) return;
+  sqEl.classList.add('puzzle-correct-flash');
+  setTimeout(()=>sqEl.classList.remove('puzzle-correct-flash'), 900);
+}
+
+function showHint(){
+  if(mode!=='puzzle' || puzzleState.solved) return;
+  const expected=expectedPuzzlePly();
+  if(!expected) return;
+  const sqEl=findSquareEl(expected.from.row, expected.from.col);
+  if(!sqEl) return;
+  const el=document.getElementById('puzzleFeedback');
+  el.textContent='Hint: look at the glowing square.';
+  el.className='puzzle-feedback';
+  sqEl.classList.add('puzzle-hint');
+  setTimeout(()=>sqEl.classList.remove('puzzle-hint'), 1800);
+}
+
+function puzzleAdvance(){
+  puzzleState.plyIndex++;
+  const pz=currentPuzzle();
+  if(puzzleState.plyIndex >= pz.solution.length){
+    puzzleState.solved=true;
+    const el=document.getElementById('puzzleFeedback');
+    el.textContent='Solved!'; el.className='puzzle-feedback right';
+    showResultModal('🧩', 'Puzzle Solved!', pz.success, [
+      { label:'Retry', onClick(){ loadPuzzle(puzzleState.index); } },
+      { label:'Next Puzzle', primary:true, onClick(){ loadPuzzle(puzzleState.index+1); } }
+    ]);
+    return;
+  }
+  if(game.turn !== puzzleState.humanColor){
+    setTimeout(()=>{
+      const expected=expectedPuzzlePly();
+      if(!expected) return;
+      const moves=legalMoves(game.board, game.castling, game.ep, game.turn);
+      const mv=moves.find(m=>m.from.row===expected.from.row && m.from.col===expected.from.col && m.to.row===expected.to.row && m.to.col===expected.to.col);
+      if(mv) executeMove(mv);
+    }, 550);
+  }
+}
+
+/* ---------------- SESSION CONTROL ---------------- */
+function startNewSession(){
+  if(mode==='puzzle'){ loadPuzzle(puzzleState.index); return; }
+  newGame();
+  resetClockTimes();
+  selected=null; legalTargets=[];
+  render();
+  updateClockUI();
+  startClock();
+}
+
 /* ---------------- INTERACTION ---------------- */
 function humanColor(){ return 'w'; }
 
 function onSquareClick(e){
   if(animating || game.gameOver) return;
+  if(mode==='puzzle' && (puzzleState.solved || game.turn!==puzzleState.humanColor)) return;
   const row=parseInt(e.currentTarget.dataset.row,10);
   const col=parseInt(e.currentTarget.dataset.col,10);
   if(mode==='ai' && game.turn!==humanColor()) return;
@@ -1151,14 +1505,31 @@ function onSquareClick(e){
     const move = legalTargets.find(m=>m.to.row===row && m.to.col===col);
     if(move){
       const promoChoices = legalTargets.filter(m=>m.to.row===row && m.to.col===col && m.promotion);
-      if(promoChoices.length>0){ showPromotionModal(promoChoices, executeMove); }
-      else { executeMove(move); }
+      if(promoChoices.length>0){ showPromotionModal(promoChoices, attemptExecute); }
+      else { attemptExecute(move); }
       return;
     }
     if(clickedPiece && clickedPiece.color===game.turn){ selectSquare(row,col); }
     else { selected=null; legalTargets=[]; render(); }
   } else {
     if(clickedPiece && clickedPiece.color===game.turn){ selectSquare(row,col); }
+  }
+}
+
+function attemptExecute(move){
+  if(mode==='puzzle' && !checkPuzzleMove(move)){
+    const fromRC={row:move.from.row, col:move.from.col};
+    const toRC={row:move.to.row, col:move.to.col};
+    selected=null; legalTargets=[];
+    render();
+    showPuzzleWrong(fromRC, toRC);
+    return;
+  }
+  const isPuzzleCorrect = mode==='puzzle';
+  executeMove(move);
+  if(isPuzzleCorrect){
+    playCorrectSound();
+    showPuzzleCorrectFlash({row:move.to.row, col:move.to.col});
   }
 }
 
@@ -1261,7 +1632,15 @@ function executeMove(move){
 
   setTimeout(()=>{
     animating=false;
-    if(!game.gameOver && mode==='ai' && game.turn!==humanColor()){
+    if(mode==='puzzle'){
+      puzzleAdvance();
+      return;
+    }
+    if(game.gameOver){
+      maybeShowGameOverModal();
+      return;
+    }
+    if(mode==='ai' && game.turn!==humanColor()){
       setTimeout(triggerAI, 350);
     }
   }, willCapture?1050:180);
@@ -1401,6 +1780,7 @@ function triggerAI(){
 
 /* ---------------- UNDO / CONTROLS ---------------- */
 function undo(){
+  if(mode==='puzzle') return;
   if(animating) return;
   if(game.history.length===0) return;
   let steps = (mode==='ai') ? 2 : 1;
@@ -1416,18 +1796,48 @@ function undo(){
   render();
 }
 
-document.getElementById('newGameBtn').addEventListener('click',()=>{ newGame(); selected=null; legalTargets=[]; render(); });
+document.getElementById('newGameBtn').addEventListener('click', startNewSession);
 document.getElementById('undoBtn').addEventListener('click', undo);
 document.getElementById('flipBtn').addEventListener('click',()=>{ flipped=!flipped; render(); });
 document.getElementById('soundBtn').addEventListener('click',(e)=>{
   soundOn=!soundOn; e.target.textContent='Sound: '+(soundOn?'On':'Off'); if(soundOn) ensureAudio();
 });
+
+function setModeUIVisibility(){
+  document.getElementById('aiOptions').style.display = mode==='ai' ? 'block' : 'none';
+  document.getElementById('timeControlRow').style.display = mode==='puzzle' ? 'none' : 'block';
+  document.getElementById('puzzlePanel').style.display = mode==='puzzle' ? 'block' : 'none';
+  document.getElementById('undoBtn').style.display = mode==='puzzle' ? 'none' : 'block';
+}
+
 document.getElementById('modeSelect').addEventListener('change',(e)=>{
   mode=e.target.value;
-  document.getElementById('aiOptions').style.display = mode==='ai' ? 'block' : 'none';
-  newGame(); selected=null; legalTargets=[]; render();
+  setModeUIVisibility();
+  stopClock();
+  if(mode==='puzzle'){
+    loadPuzzle(0);
+  } else {
+    newGame();
+    resetClockTimes();
+    selected=null; legalTargets=[];
+    render();
+    startClock();
+  }
+  updateClockUI();
 });
 document.getElementById('difficultySelect').addEventListener('change',(e)=>{ aiDepth=parseInt(e.target.value,10)+1; });
+document.getElementById('timeControlSelect').addEventListener('change',(e)=>{
+  clockInitial=parseInt(e.target.value,10);
+  clockEnabled=clockInitial>0;
+  resetClockTimes();
+  updateClockUI();
+  if(mode!=='puzzle'){ startClock(); }
+});
+
+document.getElementById('puzzleNextBtn').addEventListener('click',()=>{ loadPuzzle(puzzleState.index+1); });
+document.getElementById('puzzlePrevBtn').addEventListener('click',()=>{ loadPuzzle(puzzleState.index-1); });
+document.getElementById('puzzleRetryBtn').addEventListener('click',()=>{ loadPuzzle(puzzleState.index); });
+document.getElementById('puzzleHintBtn').addEventListener('click', showHint);
 
 document.querySelectorAll('.swatch').forEach(sw=>{
   sw.addEventListener('click',()=>{
@@ -1438,6 +1848,7 @@ document.querySelectorAll('.swatch').forEach(sw=>{
 });
 
 buildBoardDOM();
+setModeUIVisibility();
 render();
 })();
 </script>
