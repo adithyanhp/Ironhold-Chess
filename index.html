@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-palette="gold">
+<html lang="en" data-palette="gold" data-board="obsidian">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -24,19 +24,66 @@
   --armyB:#a01018; --armyB-glow:#ff5b57; --armyB-dim:#3a0709;
 }
 
-:root{
+:root, [data-board="obsidian"]{
   --bg-void:#08090b;
   --stone-dark:#16171c;
   --stone:#1f2127;
   --stone-light:#2c2f38;
   --stone-edge:#3a3e4a;
-  --parchment:#dfe1e8;
-  --parchment-dim:#8b8fa0;
-  --amber:#c9a35a;
   --board-light:#2b2e37;
   --board-dark:#121319;
   --board-light-hi:#3a3f4d;
   --board-dark-hi:#1c1e26;
+}
+[data-board="frost"]{
+  --bg-void:#0a1016;
+  --stone-dark:#131c24;
+  --stone:#1c2933;
+  --stone-light:#2c3d4a;
+  --stone-edge:#3f5666;
+  --board-light:#3a4f5e;
+  --board-dark:#182530;
+  --board-light-hi:#4c6577;
+  --board-dark-hi:#233443;
+}
+[data-board="bloodstone"]{
+  --bg-void:#0c0808;
+  --stone-dark:#1c1213;
+  --stone:#271717;
+  --stone-light:#38201f;
+  --stone-edge:#522b28;
+  --board-light:#3a201f;
+  --board-dark:#170e0e;
+  --board-light-hi:#4c2a27;
+  --board-dark-hi:#241615;
+}
+[data-board="jade"]{
+  --bg-void:#070b09;
+  --stone-dark:#121a15;
+  --stone:#1a251e;
+  --stone-light:#25352b;
+  --stone-edge:#38503f;
+  --board-light:#2b4034;
+  --board-dark:#111a15;
+  --board-light-hi:#3a5645;
+  --board-dark-hi:#1a271f;
+}
+[data-board="slate"]{
+  --bg-void:#0a0b0d;
+  --stone-dark:#181a1e;
+  --stone:#22252b;
+  --stone-light:#30343c;
+  --stone-edge:#454b56;
+  --board-light:#3a3f4a;
+  --board-dark:#16181d;
+  --board-light-hi:#4a5160;
+  --board-dark-hi:#20242b;
+}
+
+:root{
+  --parchment:#dfe1e8;
+  --parchment-dim:#8b8fa0;
+  --amber:#c9a35a;
   --font-display:'Cinzel Decorative', serif;
   --font-head:'Cinzel', serif;
   --font-body:'EB Garamond', serif;
@@ -160,6 +207,13 @@ select{
 .swatch[data-p="ice"]::before{ background:#8fd4ff; } .swatch[data-p="ice"]::after{ background:#e0453f; }
 .swatch[data-p="blood"]::before{ background:#d8d8d8; } .swatch[data-p="blood"]::after{ background:#a01018; }
 
+.swatch.board-swatch{ border-radius:4px; }
+.swatch[data-b="obsidian"]::before{ background:#2b2e37; } .swatch[data-b="obsidian"]::after{ background:#121319; }
+.swatch[data-b="frost"]::before{ background:#3a4f5e; } .swatch[data-b="frost"]::after{ background:#182530; }
+.swatch[data-b="bloodstone"]::before{ background:#3a201f; } .swatch[data-b="bloodstone"]::after{ background:#170e0e; }
+.swatch[data-b="jade"]::before{ background:#2b4034; } .swatch[data-b="jade"]::after{ background:#111a15; }
+.swatch[data-b="slate"]::before{ background:#3a3f4a; } .swatch[data-b="slate"]::after{ background:#16181d; }
+
 .status-box{
   margin-top:16px; padding:10px 12px; background:var(--stone-dark); border:1px solid var(--stone-edge);
   border-radius:4px; font-family:var(--font-head); font-size:13px; text-align:center; color:var(--parchment); min-height:20px;
@@ -273,6 +327,12 @@ select{
   width:82%; height:88%; display:flex; align-items:flex-end; justify-content:center;
   position:relative; z-index:5; pointer-events:none;
 }
+.piece-slot:not(:empty)::before{
+  content:''; position:absolute; left:50%; bottom:2%; width:56%; height:14%;
+  transform:translateX(-50%); border-radius:50%;
+  background:radial-gradient(ellipse, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.25) 55%, transparent 80%);
+  z-index:0;
+}
 .piece-svg{ width:100%; height:100%; overflow:visible; display:block; }
 .figure-root{ transform-origin:50% 96%; animation:idleSway 4.5s ease-in-out infinite; }
 @keyframes idleSway{ 0%,100%{ transform:rotate(-1deg); } 50%{ transform:rotate(1deg); } }
@@ -280,10 +340,10 @@ select{
   .figure-root{ animation:none; }
   .fog{ animation:none; }
 }
-.army-w *{ fill:var(--armyA); stroke:rgba(0,0,0,0.55); stroke-width:1; }
-.army-b *{ fill:var(--armyB); stroke:rgba(0,0,0,0.55); stroke-width:1; }
-.army-w{ filter:drop-shadow(0 0 4px var(--armyA-glow)) drop-shadow(0 2px 4px rgba(0,0,0,0.85)); }
-.army-b{ filter:drop-shadow(0 0 4px var(--armyB-glow)) drop-shadow(0 2px 4px rgba(0,0,0,0.85)); }
+.army-w *{ fill:url(#armyGradW); stroke:rgba(0,0,0,0.65); stroke-width:1.1; }
+.army-b *{ fill:url(#armyGradB); stroke:rgba(0,0,0,0.65); stroke-width:1.1; }
+.army-w{ filter:drop-shadow(0 0 4px var(--armyA-glow)) drop-shadow(0 3px 5px rgba(0,0,0,0.85)); }
+.army-b{ filter:drop-shadow(0 0 4px var(--armyB-glow)) drop-shadow(0 3px 5px rgba(0,0,0,0.85)); }
 
 .leg-group, .arm-group, .torso-group, .head-group{ transform-box:fill-box; }
 
@@ -448,6 +508,20 @@ select{
 </style>
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <linearGradient id="armyGradW" x1="0%" y1="0%" x2="18%" y2="100%">
+      <stop offset="0%" style="stop-color:var(--armyA-glow)"/>
+      <stop offset="42%" style="stop-color:var(--armyA)"/>
+      <stop offset="100%" style="stop-color:var(--armyA-dim)"/>
+    </linearGradient>
+    <linearGradient id="armyGradB" x1="0%" y1="0%" x2="18%" y2="100%">
+      <stop offset="0%" style="stop-color:var(--armyB-glow)"/>
+      <stop offset="42%" style="stop-color:var(--armyB)"/>
+      <stop offset="100%" style="stop-color:var(--armyB-dim)"/>
+    </linearGradient>
+  </defs>
+</svg>
 <div class="fog"></div>
 <div class="app">
 
@@ -531,6 +605,15 @@ select{
           <div class="swatch" data-p="neon" title="Neon vs Shadow"></div>
           <div class="swatch" data-p="ice" title="Ice vs Fire"></div>
           <div class="swatch" data-p="blood" title="Bone vs Blood Moon"></div>
+        </div>
+        <div style="height:10px;"></div>
+        <label class="field-label">Board Theme</label>
+        <div class="palette-row" id="boardRow">
+          <div class="swatch board-swatch active" data-b="obsidian" title="Ironhold Obsidian"></div>
+          <div class="swatch board-swatch" data-b="frost" title="Frozen Wastes"></div>
+          <div class="swatch board-swatch" data-b="bloodstone" title="Bloodmoon Battlefield"></div>
+          <div class="swatch board-swatch" data-b="jade" title="Ancient Jade Temple"></div>
+          <div class="swatch board-swatch" data-b="slate" title="Steel Slate"></div>
         </div>
         <div class="controls">
           <div class="btn primary" id="newGameBtn">New Campaign</div>
@@ -827,41 +910,60 @@ function buildRigArt(){
   const rArmR = armReady('R');
   const rArmL = armReady('L');
   return {
-    P: { // foot soldier — short sword
-      viewBox:'0 0 100 150', anim:'swing', legWidth:10,
-      head:[ {tag:'circle', attrs:{cx:50,cy:34,r:12}}, {tag:'rect', attrs:{x:47,y:14,width:6,height:10}} ],
+    P: { // front-line spearman — helm, round shield, thrusting spear
+      viewBox:'0 0 100 150', anim:'thrust', legWidth:10,
+      head:[
+        {tag:'circle', attrs:{cx:50,cy:34,r:12}},
+        {tag:'path', attrs:{d:'M38,30 Q50,16 62,30 L62,26 Q50,13 38,26 Z'}},
+        {tag:'rect', attrs:{x:48,y:30,width:4,height:13}}
+      ],
       torso:[ {tag:'path', attrs:{d:'M38,58 L62,58 L58,97 L42,97 Z'}} ],
-      armL: armRelaxed('L'),
+      armL: armRelaxed('L').concat([
+        {tag:'circle', attrs:{cx:23,cy:101,r:9}},
+        {tag:'circle', attrs:{cx:23,cy:101,r:3,class:'orb-glow'}}
+      ]),
       armR: rArmR.shapes.concat([
-        {tag:'line', attrs:{x1:rArmR.hand.x,y1:rArmR.hand.y,x2:rArmR.hand.x+20,y2:rArmR.hand.y-24,'stroke-width':6,'stroke-linecap':'round'}},
-        {tag:'circle', attrs:{cx:rArmR.hand.x,cy:rArmR.hand.y,r:4}}
+        {tag:'line', attrs:{x1:rArmR.hand.x,y1:rArmR.hand.y,x2:rArmR.hand.x+38,y2:rArmR.hand.y-52,'stroke-width':4,'stroke-linecap':'round'}},
+        {tag:'polygon', attrs:{points:(rArmR.hand.x+38)+','+(rArmR.hand.y-52)+' '+(rArmR.hand.x+30)+','+(rArmR.hand.y-46)+' '+(rArmR.hand.x+46)+','+(rArmR.hand.y-58)}}
       ]),
       legL: legShapes('L',10), legR: legShapes('R',10)
     },
-    B: { // hooded mystic — dark energy staff
+    B: { // rune sentinel — hooded, floating rune-halo, sigil staff
       viewBox:'0 0 100 150', anim:'thrust', legWidth:9,
-      head:[ {tag:'circle', attrs:{cx:50,cy:34,r:11}}, {tag:'path', attrs:{d:'M50,6 Q39,13 42,28 Q50,33 58,28 Q61,13 50,6 Z'}} ],
-      torso:[ {tag:'path', attrs:{d:'M36,58 Q28,76 26,97 Q50,104 74,97 Q72,76 64,58 Z'}} ],
+      head:[
+        {tag:'path', attrs:{d:'M50,16 Q37,20 35,36 Q35,48 50,50 Q65,48 65,36 Q63,20 50,16 Z'}},
+        {tag:'ellipse', attrs:{cx:50,cy:12,rx:16,ry:4,class:'orb-glow', fill:'none', 'stroke-width':2.5}},
+        {tag:'circle', attrs:{cx:50,cy:6,r:2.5,class:'orb-glow'}}
+      ],
+      torso:[
+        {tag:'path', attrs:{d:'M36,58 Q28,76 26,97 Q50,104 74,97 Q72,76 64,58 Z'}},
+        {tag:'line', attrs:{x1:30,y1:88,x2:70,y2:88,'stroke-width':2}},
+        {tag:'polygon', attrs:{points:'50,64 45,74 50,84 55,74'}}
+      ],
       armL: armRelaxed('L'),
       armR: rArmR.shapes.concat([
-        {tag:'line', attrs:{x1:rArmR.hand.x,y1:rArmR.hand.y,x2:rArmR.hand.x+14,y2:rArmR.hand.y-38,'stroke-width':5,'stroke-linecap':'round'}},
-        {tag:'circle', attrs:{cx:rArmR.hand.x+16,cy:rArmR.hand.y-42,r:7,class:'orb-glow'}}
+        {tag:'line', attrs:{x1:rArmR.hand.x,y1:rArmR.hand.y,x2:rArmR.hand.x+14,y2:rArmR.hand.y-42,'stroke-width':5,'stroke-linecap':'round'}},
+        {tag:'circle', attrs:{cx:rArmR.hand.x+16,cy:rArmR.hand.y-47,r:8,class:'orb-glow'}},
+        {tag:'path', attrs:{d:'M'+(rArmR.hand.x+8)+','+(rArmR.hand.y-47)+' L'+(rArmR.hand.x+24)+','+(rArmR.hand.y-47), 'stroke-width':2, fill:'none'}}
       ]),
       legL: legShapes('L',9), legR: legShapes('R',9)
     },
-    R: { // hulking guardian — tower shield + mace, battlement motifs
+    R: { // bulwark sentinel — horned plated helm, tower shield, spiked mace
       viewBox:'0 0 100 150', anim:'swing', legWidth:12,
       head:[
         {tag:'circle', attrs:{cx:50,cy:34,r:13}},
-        {tag:'rect', attrs:{x:38,y:19,width:24,height:9}},
-        {tag:'rect', attrs:{x:39,y:11,width:5,height:9}},
-        {tag:'rect', attrs:{x:47,y:11,width:6,height:9}},
-        {tag:'rect', attrs:{x:56,y:11,width:5,height:9}}
+        {tag:'path', attrs:{d:'M37,24 Q50,15 63,24 L63,32 Q50,26 37,32 Z'}},
+        {tag:'polygon', attrs:{points:'34,26 24,10 33,24'}},
+        {tag:'polygon', attrs:{points:'66,26 76,10 67,24'}},
+        {tag:'line', attrs:{x1:44,y1:38,x2:48,y2:44,'stroke-width':1.5}},
+        {tag:'line', attrs:{x1:54,y1:30,x2:57,y2:36,'stroke-width':1.5}}
       ],
       torso:[
         {tag:'path', attrs:{d:'M32,56 L68,56 L62,97 L38,97 Z'}},
         {tag:'polygon', attrs:{points:'24,54 38,54 34,68 20,66'}},
-        {tag:'polygon', attrs:{points:'76,54 62,54 66,68 80,66'}}
+        {tag:'polygon', attrs:{points:'76,54 62,54 66,68 80,66'}},
+        {tag:'rect', attrs:{x:46,y:66,width:8,height:11}},
+        {tag:'line', attrs:{x1:38,y1:80,x2:62,y2:80,'stroke-width':1.5}}
       ],
       armL: armRelaxed('L').concat([
         {tag:'path', attrs:{d:'M6,64 Q1,84 6,106 Q18,112 30,106 Q35,84 30,64 Z'}},
@@ -871,36 +973,49 @@ function buildRigArt(){
       ]),
       armR: rArmR.shapes.concat([
         {tag:'line', attrs:{x1:rArmR.hand.x,y1:rArmR.hand.y,x2:rArmR.hand.x+6,y2:rArmR.hand.y-32,'stroke-width':7,'stroke-linecap':'round'}},
-        {tag:'circle', attrs:{cx:rArmR.hand.x+7,cy:rArmR.hand.y-36,r:11}}
+        {tag:'circle', attrs:{cx:rArmR.hand.x+7,cy:rArmR.hand.y-36,r:11}},
+        {tag:'polygon', attrs:{points:(rArmR.hand.x-2)+','+(rArmR.hand.y-36)+' '+(rArmR.hand.x+7)+','+(rArmR.hand.y-44)+' '+(rArmR.hand.x+7)+','+(rArmR.hand.y-30)}},
+        {tag:'polygon', attrs:{points:(rArmR.hand.x+16)+','+(rArmR.hand.y-36)+' '+(rArmR.hand.x+7)+','+(rArmR.hand.y-44)+' '+(rArmR.hand.x+7)+','+(rArmR.hand.y-30)}}
       ]),
       legL: legShapes('L',12), legR: legShapes('R',12)
     },
-    Q: { // regal twin-blade warrior — flowing gown and train
+    Q: { // regal sorceress-warrior — tiara, twin spinning blades
       viewBox:'0 0 100 150', anim:'spin', legWidth:8,
-      head:[ {tag:'circle', attrs:{cx:50,cy:34,r:10}}, {tag:'polygon', attrs:{points:'38,24 42,10 47,20 50,2 53,20 58,10 62,24'}} ],
+      head:[
+        {tag:'circle', attrs:{cx:50,cy:34,r:10}},
+        {tag:'polygon', attrs:{points:'40,24 44,12 50,20 56,12 60,24'}},
+        {tag:'circle', attrs:{cx:50,cy:19,r:2,class:'orb-glow'}}
+      ],
       torso:[
         {tag:'path', attrs:{d:'M37,60 Q22,104 34,138 Q50,128 66,138 Q78,104 63,60 Z'}},
         {tag:'path', attrs:{d:'M41,58 Q33,80 30,98 L70,98 Q67,80 59,58 Z'}},
-        {tag:'line', attrs:{x1:34,y1:70,x2:66,y2:82,'stroke-width':2}}
+        {tag:'line', attrs:{x1:34,y1:70,x2:66,y2:82,'stroke-width':2}},
+        {tag:'polygon', attrs:{points:'50,60 46,68 50,76 54,68'}}
       ],
       armL: rArmL.shapes.concat([
-        {tag:'polyline', attrs:{points:rArmL.hand.x+','+rArmL.hand.y+' '+(rArmL.hand.x-16)+','+(rArmL.hand.y-14)+' '+(rArmL.hand.x-10)+','+(rArmL.hand.y-30), 'stroke-width':5,'stroke-linecap':'round', fill:'none'}}
+        {tag:'polyline', attrs:{points:rArmL.hand.x+','+rArmL.hand.y+' '+(rArmL.hand.x-16)+','+(rArmL.hand.y-14)+' '+(rArmL.hand.x-10)+','+(rArmL.hand.y-30), 'stroke-width':5,'stroke-linecap':'round', fill:'none'}},
+        {tag:'line', attrs:{x1:rArmL.hand.x-19,y1:rArmL.hand.y-11,x2:rArmL.hand.x-13,y2:rArmL.hand.y-17,'stroke-width':4,'stroke-linecap':'round'}}
       ]),
       armR: rArmR.shapes.concat([
-        {tag:'polyline', attrs:{points:rArmR.hand.x+','+rArmR.hand.y+' '+(rArmR.hand.x+16)+','+(rArmR.hand.y-14)+' '+(rArmR.hand.x+10)+','+(rArmR.hand.y-30), 'stroke-width':5,'stroke-linecap':'round', fill:'none'}}
+        {tag:'polyline', attrs:{points:rArmR.hand.x+','+rArmR.hand.y+' '+(rArmR.hand.x+16)+','+(rArmR.hand.y-14)+' '+(rArmR.hand.x+10)+','+(rArmR.hand.y-30), 'stroke-width':5,'stroke-linecap':'round', fill:'none'}},
+        {tag:'line', attrs:{x1:rArmR.hand.x+19,y1:rArmR.hand.y-11,x2:rArmR.hand.x+13,y2:rArmR.hand.y-17,'stroke-width':4,'stroke-linecap':'round'}}
       ]),
       legL: legShapes('L',8), legR: legShapes('R',8)
     },
-    K: { // crowned warlord — greatsword, orb-finial crown
+    K: { // crowned warlord — flowing cape, orb-cross crown, greatsword
       viewBox:'0 0 100 150', anim:'swing', legWidth:11,
       head:[
         {tag:'circle', attrs:{cx:50,cy:32,r:13}},
         {tag:'polygon', attrs:{points:'35,22 40,7 46,19 50,1 54,19 60,7 65,22'}},
-        {tag:'circle', attrs:{cx:50,cy:0,r:3}}
+        {tag:'circle', attrs:{cx:50,cy:0,r:3}},
+        {tag:'line', attrs:{x1:50,y1:-4,x2:50,y2:4,'stroke-width':1.5}},
+        {tag:'line', attrs:{x1:46,y1:0,x2:54,y2:0,'stroke-width':1.5}}
       ],
       torso:[
+        {tag:'path', attrs:{d:'M26,58 Q12,100 22,140 L50,128 Z'}},
         {tag:'path', attrs:{d:'M30,56 Q17,105 27,140 L50,124 L73,140 Q83,105 70,56 Z'}},
-        {tag:'path', attrs:{d:'M38,56 L62,56 L58,97 L42,97 Z'}}
+        {tag:'path', attrs:{d:'M38,56 L62,56 L58,97 L42,97 Z'}},
+        {tag:'polygon', attrs:{points:'50,62 45,70 50,78 55,70'}}
       ],
       armL: armRelaxed('L'),
       armR: rArmR.shapes.concat([
@@ -912,7 +1027,6 @@ function buildRigArt(){
   };
 }
 const PIECE_ART = buildRigArt();
-
 function makePart(cls, shapes, pivot){
   const g = svgEl('g',{class:cls});
   g.style.transformOrigin = pivot.x+'px '+pivot.y+'px';
@@ -952,7 +1066,7 @@ function buildPieceSVG(type, color){
   return {svg, figureRoot, armR, armL, legL, legR, torso, head};
 }
 
-// Knight — rearing warhorse (static silhouette) + articulated rider with a swinging blade arm
+// Knight — rearing warhorse with wind-swept mane + armored, plumed rider
 const KNIGHT_PIVOTS = { head:{x:92,y:32}, torso:{x:88,y:56}, armR:{x:100,y:46} };
 function buildKnightSVG(color){
   const svg = svgEl('svg', {viewBox:'0 0 150 150', class:'piece-svg'});
@@ -966,13 +1080,23 @@ function buildKnightSVG(color){
     {tag:'line', attrs:{x1:62,y1:96,x2:42,y2:128,'stroke-width':9,'stroke-linecap':'round'}},
     {tag:'line', attrs:{x1:70,y1:102,x2:54,y2:134,'stroke-width':9,'stroke-linecap':'round'}},
     {tag:'polygon', attrs:{points:'70,99 40,58 50,30 78,50 80,99'}},
+    {tag:'polygon', attrs:{points:'46,50 34,46 44,40'}},
+    {tag:'polygon', attrs:{points:'52,38 40,32 50,28'}},
+    {tag:'polygon', attrs:{points:'60,30 50,22 58,20'}},
     {tag:'ellipse', attrs:{cx:40,cy:34,rx:14,ry:9,transform:'rotate(-25 40 34)'}},
     {tag:'polygon', attrs:{points:'32,20 27,8 39,16'}}
   ], RIG_PIVOTS.legL);
   mount.style.transformOrigin='98px 126px';
 
-  const torso = makePart('torso-group', [ {tag:'ellipse', attrs:{cx:88,cy:58,rx:13,ry:18}} ], KNIGHT_PIVOTS.torso);
-  const head = makePart('head-group', [ {tag:'circle', attrs:{cx:92,cy:34,r:10}}, {tag:'rect', attrs:{x:89,y:16,width:5,height:9}} ], KNIGHT_PIVOTS.head);
+  const torso = makePart('torso-group', [
+    {tag:'ellipse', attrs:{cx:88,cy:58,rx:13,ry:18}},
+    {tag:'path', attrs:{d:'M78,50 L98,50 L94,68 L82,68 Z'}}
+  ], KNIGHT_PIVOTS.torso);
+  const head = makePart('head-group', [
+    {tag:'circle', attrs:{cx:92,cy:34,r:10}},
+    {tag:'rect', attrs:{x:89,y:16,width:5,height:9}},
+    {tag:'polygon', attrs:{points:'92,14 88,4 96,4'}}
+  ], KNIGHT_PIVOTS.head);
   const armR = makePart('arm-group arm-r weapon-arm swing', [
     {tag:'polyline', attrs:{points:'100,46 112,58 120,44', 'stroke-width':8,'stroke-linecap':'round', fill:'none'}},
     {tag:'line', attrs:{x1:120,y1:44,x2:140,y2:6,'stroke-width':7,'stroke-linecap':'round'}},
@@ -1839,10 +1963,17 @@ document.getElementById('puzzlePrevBtn').addEventListener('click',()=>{ loadPuzz
 document.getElementById('puzzleRetryBtn').addEventListener('click',()=>{ loadPuzzle(puzzleState.index); });
 document.getElementById('puzzleHintBtn').addEventListener('click', showHint);
 
-document.querySelectorAll('.swatch').forEach(sw=>{
+document.querySelectorAll('#paletteRow .swatch').forEach(sw=>{
   sw.addEventListener('click',()=>{
     document.documentElement.setAttribute('data-palette', sw.dataset.p);
-    document.querySelectorAll('.swatch').forEach(s=>s.classList.remove('active'));
+    document.querySelectorAll('#paletteRow .swatch').forEach(s=>s.classList.remove('active'));
+    sw.classList.add('active');
+  });
+});
+document.querySelectorAll('#boardRow .swatch').forEach(sw=>{
+  sw.addEventListener('click',()=>{
+    document.documentElement.setAttribute('data-board', sw.dataset.b);
+    document.querySelectorAll('#boardRow .swatch').forEach(s=>s.classList.remove('active'));
     sw.classList.add('active');
   });
 });
