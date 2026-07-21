@@ -242,8 +242,8 @@ Ironhold Chess can run in its own window via your browser's install feature. On 
 
 ## 📦 Version History
 
-- **v3.0** — Board Theme system (5 battlefield color schemes), full original-art redesign of all six warriors, metallic gradient shading and contact shadows for a grounded, dimensional look.
-- **v2.0** — Chess clocks (No Clock / 5 min / 10 min), chess.com-style game-over result card, five-puzzle Puzzle Mode with hints and right/wrong move feedback.
+- **v1.2** — Board Theme system (5 battlefield color schemes), full original-art redesign of all six warriors, metallic gradient shading and contact shadows for a grounded, dimensional look.
+- **v1.1** — Chess clocks (No Clock / 5 min / 10 min), chess.com-style game-over result card, five-puzzle Puzzle Mode with hints and right/wrong move feedback.
 - **v1.0** — Initial release: full chess engine, minimax AI (3 strengths), articulated SVG battle-animated pieces, four army color palettes, move chronicle, captures tray, undo/flip/sound.
 
 ---
